@@ -25,8 +25,8 @@ def handle_text(message):
     #UserPosition(database_url).set_getting_position(str(message.chat.id))
     #keyboard.get_all_faculties(message)
 
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
+@bot.message_handler(func=lambda mess: 'Change tasks' == mess.text, content_types=['text'])
+def handle_text(message):
     bot.send_message(message.from_user.id, 'Other messages')
 
 
