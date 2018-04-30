@@ -34,7 +34,7 @@ def default_test(message):
     keyboard = types.InlineKeyboardMarkup()
     url_button = types.InlineKeyboardButton(text="To the site", url="https://sunnysmm.tk")
     keyboard.add(url_button)
-    bot.send_message(message.chat.id, "Yo, push the button", reply_markup=keyboard)
+    bot.send_message(message.from_user.id, "Yo, push the button", reply_markup=keyboard)
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
