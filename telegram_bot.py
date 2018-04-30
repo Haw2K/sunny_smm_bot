@@ -29,6 +29,13 @@ def handle_text(message):
 def handle_text(message):
     bot.send_message(message.from_user.id, 'Other messages')
 
+@bot.message_handler(func=lambda mess: 'Site' == mess.text, content_types=['text'])
+def default_test(message):
+    keyboard = types.InlineKeyboardMarkup()
+    url_button = types.InlineKeyboardButton(text="To the site", url="https://sunnysmm.tk.ru")
+    keyboard.add(url_button)
+    bot.send_message(message.chat.id, "Yo, push the button", reply_markup=keyboard)
+
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
     bot.send_message(message.from_user.id, 'Other messages')
