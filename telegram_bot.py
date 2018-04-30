@@ -12,11 +12,10 @@ server = Flask(__name__)
 def start(message):
     #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
     user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('Получить расписание')
-    user_markup.row('Получить расписание по подписке')
-    user_markup.row('Время пар')
-    user_markup.row('Обновления', 'Обратная связь')
-    bot.send_message(message.from_user.id, 'Выберите пункт меню:', reply_markup=user_markup)
+    user_markup.row('Add instagram account')
+    user_markup.row('Change tasks')
+    user_markup.row('Site', 'FAQ')
+    bot.send_message(message.from_user.id, 'Select menu item:', reply_markup=user_markup)
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -34,7 +33,7 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url='https://sunnysmm.tk/' + TOKEN)
-    return "!", 200
+    return "sunny smm hello world", 200
 
 
 if __name__ == "__main__":
