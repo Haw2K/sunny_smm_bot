@@ -10,7 +10,13 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+    #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    user_markup.row('Получить расписание')
+    user_markup.row('Получить расписание по подписке')
+    user_markup.row('Время пар')
+    user_markup.row('Обновления', 'Обратная связь')
+    bot.send_message(message.from_user.id, 'Выберите пункт меню:', reply_markup=user_markup)
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -21,7 +27,7 @@ def echo_message(message):
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return "!", 200
+    return "sunny smm hello world", 200
 
 
 @server.route("/")
