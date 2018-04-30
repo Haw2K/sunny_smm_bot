@@ -1,19 +1,35 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-updater = Updater(token='535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8') # Токен API к Telegram
-dispatcher = updater.dispatcher
-# Обработка команд
-def startCommand(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text='Привет, давай пообщаемся?')
-def textMessage(bot, update):
-    response = 'Получил Ваше сообщение: ' + update.message.text
-    bot.send_message(chat_id=update.message.chat_id, text=response)
-# Хендлеры
-start_command_handler = CommandHandler('start', startCommand)
-text_message_handler = MessageHandler(Filters.text, textMessage)
-# Добавляем хендлеры в диспетчер
-dispatcher.add_handler(start_command_handler)
-dispatcher.add_handler(text_message_handler)
-# Начинаем поиск обновлений
-updater.start_polling(clean=True)
-# Останавливаем бота, если были нажаты Ctrl + C
-updater.idle()
+import os
+
+import telebot
+from flask import Flask, request
+
+TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+
+
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://sunnysmm.tk/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
