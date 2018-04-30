@@ -6,6 +6,7 @@ from flask import Flask, request
 TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
+keyboard = Keyboard(bot)
 
 
 @bot.message_handler(commands=['start'])
@@ -17,10 +18,16 @@ def start(message):
     user_markup.row('Site', 'FAQ')
     bot.send_message(message.from_user.id, 'Select menu item:', reply_markup=user_markup)
 
+@bot.message_handler(func=lambda mess: 'Add instagram account' == mess.text, content_types=['text'])
+def handle_text(message):
+    bot.send_message(message.from_user.id, 'Database new account')
+    #bot.reply_to(message, message.text)
+    #UserPosition(database_url).set_getting_position(str(message.chat.id))
+    #keyboard.get_all_faculties(message)
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
-    bot.reply_to(message, message.text)
+    bot.send_message(message.from_user.id, 'Other messages')
 
 
 @server.route('/' + TOKEN, methods=['POST'])
