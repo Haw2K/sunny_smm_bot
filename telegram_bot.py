@@ -29,6 +29,10 @@ def handle_text(message):
 def handle_text(message):
     bot.send_message(message.from_user.id, 'Other messages')
 
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.send_message(message.from_user.id, 'Other messages')
+
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
