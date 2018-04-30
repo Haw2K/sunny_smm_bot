@@ -32,7 +32,7 @@ def handle_text(message):
 @bot.message_handler(func=lambda mess: 'Site' == mess.text, content_types=['text'])
 def default_test(message):
     keyboard = types.InlineKeyboardMarkup()
-    url_button = types.InlineKeyboardButton(text="To the site", url="https://sunnysmm.tk.ru")
+    url_button = types.InlineKeyboardButton(text="To the site", url="https://sunnysmm.tk")
     keyboard.add(url_button)
     bot.send_message(message.chat.id, "Yo, push the button", reply_markup=keyboard)
 
