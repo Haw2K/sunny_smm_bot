@@ -6,7 +6,7 @@ from flask import Flask, request
 TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
-keyboard = Keyboard(bot)
+#keyboard = Keyboard(bot)
 
 
 @bot.message_handler(commands=['start'])
