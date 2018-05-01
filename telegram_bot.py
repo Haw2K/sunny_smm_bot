@@ -36,26 +36,26 @@ def start(message):
     user_markup.row('Site', 'FAQ')
     bot.send_message(message.from_user.id, text, reply_markup=user_markup
 
-# Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
-def send_welcome(message):
-    msg = bot.reply_to(message, """\
-Hi there, I am Example bot.
-What's your name?
-""")
-    bot.register_next_step_handler(msg, process_name_step)
-
-
-def process_name_step(message):
-    try:
-        chat_id = message.chat.id
-        name = message.text
-        user = User(name)
-        user_dict[chat_id] = user
-        msg = bot.reply_to(message, 'How old are you?')
-        bot.register_next_step_handler(msg, process_age_step)
-    except Exception as e:
-        bot.reply_to(message, 'oooops')
+# # Handle '/start' and '/help'
+# @bot.message_handler(commands=['help', 'start'])
+# def send_welcome(message):
+#     msg = bot.reply_to(message, """\
+# Hi there, I am Example bot.
+# What's your name?
+# """)
+#     bot.register_next_step_handler(msg, process_name_step)
+#
+# 
+# def process_name_step(message):
+#     try:
+#         chat_id = message.chat.id
+#         name = message.text
+#         user = User(name)
+#         user_dict[chat_id] = user
+#         msg = bot.reply_to(message, 'How old are you?')
+#         bot.register_next_step_handler(msg, process_age_step)
+#     except Exception as e:
+#         bot.reply_to(message, 'oooops')
 
 @bot.message_handler(func=lambda mess: 'FAQ' == mess.text, content_types=['text'])
 def handle_text(message):
