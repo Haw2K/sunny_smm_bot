@@ -34,7 +34,7 @@ def start(message):
     #user_markup.row('Add instagram account')
     #user_markup.row('Change tasks')
     user_markup.row('Site', 'FAQ')
-    bot.send_message(message.from_user.id, text, reply_markup=user_markup
+    bot.send_message(message.from_user.id, text, reply_markup=user_markup)
 
 # # Handle '/start' and '/help'
 # @bot.message_handler(commands=['help', 'start'])
@@ -45,7 +45,7 @@ def start(message):
 # """)
 #     bot.register_next_step_handler(msg, process_name_step)
 #
-# 
+#
 # def process_name_step(message):
 #     try:
 #         chat_id = message.chat.id
