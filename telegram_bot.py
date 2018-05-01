@@ -19,15 +19,15 @@ def start(message):
     user_markup.row('Site', 'FAQ')
     bot.send_message(message.from_user.id, '', reply_markup=user_markup)
 
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(*[types.InlineKeyboardButton(text = 'Add new account', callback_data = 'Add new account'), types.InlineKeyboardButton(text = 'Some1 else', callback_data = 'Some1 else')])
+    #keyboard = types.InlineKeyboardMarkup()
+    #keyboard.add(*[types.InlineKeyboardButton(text = 'Add new account', callback_data = 'Add new account'), types.InlineKeyboardButton(text = 'Some1 else', callback_data = 'Some1 else')])
 
     bot.edit_message_text(
         chat_id=message.chat.id,
         message_id=message.message_id,
         text='text',
-        parse_mode='Markdown',
-        reply_markup=keyboard)
+        parse_mode='Markdown')
+        #reply_markup=keyboard)
 
 @bot.message_handler(func=lambda mess: 'FAQ' == mess.text, content_types=['text'])
 def handle_text(message):
