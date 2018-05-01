@@ -1,6 +1,7 @@
 import os
 
 import telebot
+from telebot import types
 from flask import Flask, request
 
 TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
@@ -13,14 +14,14 @@ server = Flask(__name__)
 def start(message):
     #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
     user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('Add instagram account')
-    user_markup.row('Change tasks')
+    #user_markup.row('Add instagram account')
+    #user_markup.row('Change tasks')
     user_markup.row('Site', 'FAQ')
     bot.send_message(message.from_user.id, 'Select menu item:', reply_markup=user_markup)
 
-@bot.message_handler(func=lambda mess: 'Add instagram account' == mess.text, content_types=['text'])
+@bot.message_handler(func=lambda mess: 'FAQ' == mess.text, content_types=['text'])
 def handle_text(message):
-    bot.send_message(message.from_user.id, 'Database new account')
+    bot.send_message(message.from_user.id, 'To create new account use command fdfsgffgdg')
     #bot.reply_to(message, message.text)
     #UserPosition(database_url).set_getting_position(str(message.chat.id))
     #keyboard.get_all_faculties(message)
