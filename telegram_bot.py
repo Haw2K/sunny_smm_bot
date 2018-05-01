@@ -12,22 +12,50 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
+    text = 'Greetings! Im Sunny SMM Robot! Send` /add ` to create new task. Want to know about all my options? Send` /help `and a list of the commands available for you will show up.`'
     #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
     user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
     #user_markup.row('Add instagram account')
     #user_markup.row('Change tasks')
     user_markup.row('Site', 'FAQ')
-    bot.send_message(message.from_user.id, '', reply_markup=user_markup)
+    bot.send_message(message.from_user.id, text, reply_markup=user_markup)
 
     #keyboard = types.InlineKeyboardMarkup()
     #keyboard.add(*[types.InlineKeyboardButton(text = 'Add new account', callback_data = 'Add new account'), types.InlineKeyboardButton(text = 'Some1 else', callback_data = 'Some1 else')])
 
-    bot.edit_message_text(
-        chat_id=message.chat.id,
-        message_id=message.message_id,
-        text='text',
-        parse_mode='Markdown')
+    #bot.edit_message_text(        chat_id=message.chat.id,        message_id=message.message_id,        text='text',        parse_mode='Markdown')
         #reply_markup=keyboard)
+
+@bot.message_handler(commands=['help', 'start'])
+def start(message):
+    text = 'Greetings! Im Sunny SMM Robot! Want to know about my options? Send` /help `and a list of the commands available for you will show up.`'
+    #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    #user_markup.row('Add instagram account')
+    #user_markup.row('Change tasks')
+    user_markup.row('Site', 'FAQ')
+    bot.send_message(message.from_user.id, text, reply_markup=user_markup
+
+# Handle '/start' and '/help'
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    msg = bot.reply_to(message, """\
+Hi there, I am Example bot.
+What's your name?
+""")
+    bot.register_next_step_handler(msg, process_name_step)
+
+
+def process_name_step(message):
+    try:
+        chat_id = message.chat.id
+        name = message.text
+        user = User(name)
+        user_dict[chat_id] = user
+        msg = bot.reply_to(message, 'How old are you?')
+        bot.register_next_step_handler(msg, process_age_step)
+    except Exception as e:
+        bot.reply_to(message, 'oooops')
 
 @bot.message_handler(func=lambda mess: 'FAQ' == mess.text, content_types=['text'])
 def handle_text(message):
