@@ -73,6 +73,7 @@ def add(message):
         db.session.commit()
         #bot.send_message(message.from_user.id, telegram_users.query.all()[1].id, reply_markup=markup)
     else:
+        ff=1
         #bot.send_message(message.from_user.id, 'you allready have account: %s' % (telegram_user.id), reply_markup=markup)
 
     #add inline buttons create new accounts
