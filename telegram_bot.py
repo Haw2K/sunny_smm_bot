@@ -88,10 +88,14 @@ def add(message):
             callback_button = types.InlineKeyboardButton(text='Edit account: %s' % (insta_account.login), callback_data=insta_account.id)
             keyboard.add(callback_button)
 
-    bot.send_message(message.from_user.id, 'Select menu item:', reply_markup=keyboard)
+    bot.send_message(message.from_user.id, 'Edit or create new, instagram account:', reply_markup=keyboard)
 
     #'when we need confim we send you email'
     #instagram_api.get_total_followers_direct_login("nurtdinov.danil", 'Mitra123', 'd0394ffe96:09de558d36@194.28.194.111:52593')
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+	bot.reply_to(message, message.text)
 
 # В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
 @bot.callback_query_handler(func=lambda call: True)
@@ -99,7 +103,9 @@ def callback_inline(call):
     # Если сообщение из чата с ботом
     if call.message:
         if call.data == "add_new":
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="chat")
+            markup = types.ForceReply(selective=False)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Edit or create new, instagram account:")
+            bot.send_message(call.message.from_user.id, "Enter instagram login:", reply_markup=markup)
     # Если сообщение из инлайн-режима
     elif call.inline_message_id:
         if call.data == "test":
