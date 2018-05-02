@@ -45,7 +45,7 @@ def start(message):
 
 @bot.message_handler(commands=['add'])
 def add(message):
-    telegram_user = telegram_users.query.filter_by(message.from_user.id).first()
+    telegram_user = telegram_users.query.filter_by(id = message.from_user.id).first()
     if telegram_user == None:
         telegram_user = telegram_users(message.from_user.id)
         db.session.add(telegram_user)

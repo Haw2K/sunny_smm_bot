@@ -27,11 +27,24 @@ class telegram_users(db.Model):
 
 db.create_all()
 #from yourapplication import User
-admin = telegram_users(103)
-db.session.add(admin)
-db.session.commit()
+#admin = telegram_users(103)
+#db.session.add(admin)
+#db.session.commit()
 dd = telegram_users.query.all()
 
 user = telegram_users.query.filter_by(id='102').first()
 
 fdf =1
+
+telegram_user = telegram_users.query.filter_by(id = 300).first()
+if telegram_user == None:
+    telegram_user = telegram_users(300)
+    db.session.add(telegram_user)
+    db.session.commit()
+    print('bb')
+    #bot.send_message(message.from_user.id, telegram_users.query.all()[1].id)
+else:
+    print('bbd')
+    #bot.send_message(message.from_user.id, 'you allready have account: %s' % (telegram_user.id))
+
+fdfd=1
