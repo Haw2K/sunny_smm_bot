@@ -103,7 +103,7 @@ def callback_inline(call):
     # Если сообщение из инлайн-режима
     elif call.inline_message_id:
         if call.data == "test":
-            bot.edit_message_text(inline_message_id=call.inline_message_id, text="inline"
+            bot.edit_message_text(inline_message_id=call.inline_message_id, text="inline")
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
