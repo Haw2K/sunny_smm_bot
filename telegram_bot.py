@@ -57,6 +57,7 @@ def add(message):
     # message.from_user.language_code)
     #string_answer = "id: %s, is_bot: %s, first_name: %s" % (message.from_user.id, message.from_user.is_bot, message.from_user.first_name)
     string_answer = "id: %s" % (message.from_user.id)
+    string_answer = "id: %s, first_name: %s" % (message.from_user.id, message.from_user.first_name)
     bot.send_message(message.from_user.id, string_answer)
 
 @server.route('/' + TOKEN, methods=['POST'])
