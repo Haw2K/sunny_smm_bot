@@ -16,54 +16,6 @@ server.config.update({
 db = SQLAlchemy(server)
 #keyboard = Keyboard(bot)
 
-# class User(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(80), unique=True)
-#     email = db.Column(db.String(120), unique=True)
-#
-#     def __init__(self, username, email):
-#         self.username = username
-#         self.email = email
-#
-#     def __repr__(self):
-#         return '<User %r>' % self.username
-
-class telegram_users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    is_bot = db.Column(db.Boolean)
-    first_name = db.Column(db.String(100))
-    last_name = db.Column(db.String(100))
-    username = db.Column(db.String(100))
-    language_code = db.Column(db.String(100))
-
-    def __init__(self, id, is_bot, first_name, last_name, username, language_code):
-        self.id = id
-        self.is_bot = is_bot
-        self.first_name = first_name
-        self.last_name = last_name
-        self.username = username
-        self.language_code = language_code
-
-    def __repr__(self):
-        return '<telegram_users %r>' % self.id
-
-
-
-# return '<User %r>' % self.username
-
-    #addresses = db.relationship('Address', backref='person',
-    #                           lazy='dynamic')
-
-db.create_all()
-
-#
-#
-# class Address(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(50))
-#     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-
-
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -81,13 +33,15 @@ def start(message):
     #bot.edit_message_text(        chat_id=message.chat.id,        message_id=message.message_id,        text='text',        parse_mode='Markdown')
         #reply_markup=keyboard)
 
-@bot.message_handler(commands=['add'])
+@bot.message_handler(commands=['help', 'start'])
 def start(message):
-    telegram_user = telegram_users(message.from_user.id, message.from_user.is_bot, message.from_user.first_name,
-                                   message.from_user.last_name, message.from_user.username, message.from_user.language_code)
-    db.session.add(telegram_user)
-    db.session.commit()
-    bot.send_message(message.from_user.id, 'all right')
+    text = 'Greetings! Im Sunny SMM Robot! Want to know about my options? Send` /help `and a list of the commands available for you will show up.`'
+    #bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    #user_markup.row('Add instagram account')
+    #user_markup.row('Change tasks')
+    user_markup.row('Site', 'FAQ')
+    bot.send_message(message.from_user.id, text, reply_markup=user_markup)
 
 # # Handle '/start' and '/help'
 # @bot.message_handler(commands=['help', 'start'])
@@ -136,14 +90,14 @@ def echo_message(message):
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return telegram_users.query.all()[0].id, 200
+    return "sunny smm hello world", 200
 
 
 @server.route("/")
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url='https://sunnysmm.tk/' + TOKEN)
-    return telegram_users.query.all()[0].id, 200
+    return "sunny smm hello world", 200
 
 
 if __name__ == "__main__":
