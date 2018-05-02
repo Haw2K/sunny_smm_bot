@@ -45,9 +45,12 @@ def start(message):
 
 @bot.message_handler(commands=['add'])
 def add(message):
-    telegram_user = telegram_users(message.from_user.id, message.from_user.is_bot, message.from_user.first_name,
-                                  message.from_user.last_name, message.from_user.username, message.from_user.language_code)
-    db.session.add(telegram_user)
+    # telegram_user = telegram_users(message.from_user.id, message.from_user.is_bot, message.from_user.first_name,
+    #                               message.from_user.last_name, message.from_user.username, message.from_user.language_code)
+    # db.session.add(telegram_user)
+    # db.session.commit()
+    admin = telegram_users(100, True, 'fdf', 'fdf', 'fdf', 'fdf')
+    db.session.add(admin)
     db.session.commit()
     bot.send_message(message.from_user.id, 'all right')
 
