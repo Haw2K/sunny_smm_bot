@@ -40,7 +40,7 @@ class telegram_users_insta_accounts(db.Model):
     telegram_id = db.Column(db.Integer, db.ForeignKey('telegram_users.id'), nullable=False)
     login = db.Column(db.String(100))
     password = db.Column(db.String(100))
-    need_confirm_ip = db.Column(db.Bollean)
+    need_confirm_ip = db.Column(db.Boolean)
 
     def __init__(self, id, telegram_id, login, password):
         self.id = id
