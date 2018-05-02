@@ -57,7 +57,28 @@ def add(message):
     # message.from_user.language_code)
     #string_answer = "id: %s, is_bot: %s, first_name: %s" % (message.from_user.id, message.from_user.is_bot, message.from_user.first_name)
     string_answer = "id: %s" % (message.from_user.id)
-    string_answer = "id: %s, first_name: %s" % (message.from_user.id, message.from_user.first_name)
+    try:
+        string_answer = string_answer + 'is_bot:' + message.from_user.is_bot
+    finally:
+        how_do_with_out_expetion = '?'
+    try:
+        string_answer = string_answer + 'first_name:' + message.from_user.first_name
+    finally:
+        how_do_with_out_expetion = '?'
+    try:
+        string_answer = string_answer + 'last_name:' + message.from_user.last_name
+    finally:
+        how_do_with_out_expetion = '?'
+    try:
+        string_answer = string_answer + 'username:' + message.from_user.username
+    finally:
+        how_do_with_out_expetion = '?'
+    try:
+        string_answer = string_answer + 'language_code:' + message.from_user.language_code
+    finally:
+        how_do_with_out_expetion = '?'
+
+
     bot.send_message(message.from_user.id, string_answer)
 
 @server.route('/' + TOKEN, methods=['POST'])
