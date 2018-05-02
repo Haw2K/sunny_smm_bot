@@ -23,7 +23,7 @@ class telegram_users(db.Model):
     username = db.Column(db.String(100))
     language_code = db.Column(db.String(100))
 
-    def __init__(self, id, is_bot, first_name, last_name, username, language_code):
+    def __init__(self, id, is_bot=False, first_name='test', last_name='test', username='test', language_code='test'):
         self.id = id
         self.is_bot = is_bot
         self.first_name = first_name
@@ -57,29 +57,33 @@ def add(message):
     # message.from_user.language_code)
     #string_answer = "id: %s, is_bot: %s, first_name: %s" % (message.from_user.id, message.from_user.is_bot, message.from_user.first_name)
     string_answer = "id: %s" % (message.from_user.id)
-    try:
-        string_answer = string_answer + 'is_bot:' + message.from_user.is_bot
-    finally:
-        how_do_with_out_expetion = '?'
-    try:
-        string_answer = string_answer + 'first_name:' + message.from_user.first_name
-    finally:
-        how_do_with_out_expetion = '?'
-    try:
-        string_answer = string_answer + 'last_name:' + message.from_user.last_name
-    finally:
-        how_do_with_out_expetion = '?'
-    try:
-        string_answer = string_answer + 'username:' + message.from_user.username
-    finally:
-        how_do_with_out_expetion = '?'
-    try:
-        string_answer = string_answer + 'language_code:' + message.from_user.language_code
-    finally:
-        how_do_with_out_expetion = '?'
+    telegram_user = telegram_users(message.from_user.id)
+    db.session.add(telegram_user)
+    db.session.commit()
+
+    # try:
+    #     string_answer = string_answer + 'is_bot:' + message.from_user.is_bot
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'first_name:' + message.from_user.first_name
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'last_name:' + message.from_user.last_name
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'username:' + message.from_user.username
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'language_code:' + message.from_user.language_code
+    # finally:
+    #     how_do_with_out_expetion = '?'
 
 
-    bot.send_message(message.from_user.id, string_answer)
+    bot.send_message(message.from_user.id, telegram_users.query.all()[0].id)
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
