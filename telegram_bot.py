@@ -41,12 +41,13 @@ class telegram_users_insta_accounts(db.Model):
     login = db.Column(db.String(100))
     password = db.Column(db.String(100))
     need_confirm_ip = db.Column(db.Boolean)
+    stage = db.Column(db.Integer)
 
-    def __init__(self, id, telegram_id, login, password):
-        self.id = id
+    def __init__(self, telegram_id):
         self.telegram_id = telegram_id
-        self.login = login
-        self.password = password
+        # self.login = ''
+        # self.password = ''
+        self.stage = 0
 
 
     def __repr__(self):
@@ -72,8 +73,8 @@ def add(message):
         db.session.add(telegram_user)
         db.session.commit()
         #bot.send_message(message.from_user.id, telegram_users.query.all()[1].id, reply_markup=markup)
-    else:
-        ff=1
+    # else:
+    #     ff=1
         #bot.send_message(message.from_user.id, 'you allready have account: %s' % (telegram_user.id), reply_markup=markup)
 
     #add inline buttons create new accounts
@@ -103,9 +104,20 @@ def callback_inline(call):
     # Если сообщение из чата с ботом
     if call.message:
         if call.data == "add_new":
-            markup = types.ForceReply(selective=False)
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Edit or create new, instagram account:")
-            bot.send_message(call.message.from_user.id, "Enter instagram login:", reply_markup=markup)
+            #create dont have login stage 0
+            telegram_users_insta_account_stage_0 = telegram_users.query.filter_by(stage=0).first()
+            telegram_users_insta_account_stage_1 = telegram_users.query.filter_by(stage=1).first()
+            if telegram_users_insta_account_stage_0 == None and telegram_users_insta_account_stage_1 == None:
+                telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
+                db.session.add(telegram_users_insta_account)
+                db.session.commit()
+                markup = types.ForceReply(selective=False)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text="Enter instagram login:" + call.from_user.id, reply_markup=markup)
+            #else if telegram_users_insta_account_stage_0 != None:
+
+
+            #bot.send_message(call.message.from_user.id, "Enter instagram login:", reply_markup=markup)
     # Если сообщение из инлайн-режима
     elif call.inline_message_id:
         if call.data == "test":
