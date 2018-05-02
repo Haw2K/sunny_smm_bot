@@ -83,7 +83,7 @@ def add(message):
     #     how_do_with_out_expetion = '?'
 
 
-    bot.send_message(message.from_user.id, telegram_users.query.all()[0].id)
+    bot.send_message(message.from_user.id, telegram_users.query.all()[1].id)
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
@@ -95,7 +95,7 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url='https://sunnysmm.tk/' + TOKEN)
-    return 'fdfdf!!!!', 200
+    return 'telegram_users.query.all()[1].id', 200
 
 
 if __name__ == "__main__":
