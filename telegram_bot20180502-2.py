@@ -45,14 +45,45 @@ def start(message):
 
 @bot.message_handler(commands=['add'])
 def add(message):
-    telegram_user = telegram_users.query.filter_by(message.from_user.id).first()
-    if telegram_user == None:
-        telegram_user = telegram_users(message.from_user.id)
-        db.session.add(telegram_user)
-        db.session.commit()
-        bot.send_message(message.from_user.id, telegram_users.query.all()[1].id)
-    else:
-        bot.send_message(message.from_user.id, 'you allready have account: %s' % (telegram_user.id))
+    # telegram_user = telegram_users(message.from_user.id, message.from_user.is_bot, message.from_user.first_name,
+    #                               message.from_user.last_name, message.from_user.username, message.from_user.language_code)
+    # db.session.add(telegram_user)
+    # db.session.commit()
+    #admin = telegram_users(100, True, 'fdf', 'fdf', 'fdf', 'fdf')
+    #db.session.add(admin)
+    #db.session.commit()
+    # string_answer = "id: %s, is_bot: %s, first_name: %s, last_name: %s, username: %s, language_code: %s" % (message.from_user.id,
+    # message.from_user.is_bot, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
+    # message.from_user.language_code)
+    #string_answer = "id: %s, is_bot: %s, first_name: %s" % (message.from_user.id, message.from_user.is_bot, message.from_user.first_name)
+    string_answer = "id: %s" % (message.from_user.id)
+    telegram_user = telegram_users(message.from_user.id)
+    db.session.add(telegram_user)
+    db.session.commit()
+
+    # try:
+    #     string_answer = string_answer + 'is_bot:' + message.from_user.is_bot
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'first_name:' + message.from_user.first_name
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'last_name:' + message.from_user.last_name
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'username:' + message.from_user.username
+    # finally:
+    #     how_do_with_out_expetion = '?'
+    # try:
+    #     string_answer = string_answer + 'language_code:' + message.from_user.language_code
+    # finally:
+    #     how_do_with_out_expetion = '?'
+
+
+    bot.send_message(message.from_user.id, telegram_users.query.all()[1].id)
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():

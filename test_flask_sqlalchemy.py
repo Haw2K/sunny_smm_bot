@@ -14,7 +14,7 @@ class telegram_users(db.Model):
     username = db.Column(db.String(100))
     language_code = db.Column(db.String(100))
 
-    def __init__(self, id, is_bot, first_name, last_name, username, language_code):
+    def __init__(self, id, is_bot=False, first_name='test', last_name='test', username='test', language_code='test'):
         self.id = id
         self.is_bot = is_bot
         self.first_name = first_name
@@ -27,7 +27,11 @@ class telegram_users(db.Model):
 
 db.create_all()
 #from yourapplication import User
-admin = telegram_users(100, True,'fdf','fdf','fdf','fdf')
+admin = telegram_users(103)
 db.session.add(admin)
 db.session.commit()
-telegram_users.query.all()
+dd = telegram_users.query.all()
+
+user = telegram_users.query.filter_by(id='102').first()
+
+fdf =1
