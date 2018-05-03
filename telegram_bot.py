@@ -87,9 +87,9 @@ def start(message):
     if conversation.stage == 0:
         text = 'Choose language:'
         keyboard = types.InlineKeyboardMarkup()
-        callback_button1 = types.InlineKeyboardButton(text=u'\U0001F1FA' + u'\U0001F1F8' + ' Русский', callback_data="rus")
+        callback_button1 = types.InlineKeyboardButton(text=u'\U0001F1F7\U0001F1FA' + ' Русский', callback_data="rus")
         #keyboard.add(callback_button)
-        callback_button2 = types.InlineKeyboardButton(text=u'\U0001F1F7\U0001F1FA' + ' English', callback_data="eng")
+        callback_button2 = types.InlineKeyboardButton(text=u'\U0001F1FA\U0001F1F8' + ' English', callback_data="eng")
         keyboard.row(callback_button1, callback_button2)
         #U+1F1F7 U+1F1FA
         #callback_button = types.InlineKeyboardButton(text=u'\U0001F1ECU0001F1E7', callback_data="eng")
@@ -155,23 +155,22 @@ def callback_inline(call):
             conversation = conversation_line.query.filter_by(id=call.from_user.id).first()
 
             if conversation.language_code == 'rus':
-                add_account_text = 'Добавить аккаунт'
-                edit_account_text = 'Редактировать аккаунт: '
-                instagram_setting_text = 'Добавьте или настройте инстаграм аккаунт:'
+                new_account_text = "Введите Instagram login:"
 
             else:
-                add_account_text = 'New account'
-                edit_account_text = 'Edit account: '
-                instagram_setting_text = 'Edit or create new, instagram account:'
-
+                new_account_text = "Enter instagram login:"
 
             if conversation.stage == 1:
                 telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
                 db.session.add(telegram_users_insta_account)
                 db.session.commit()
-                markup = types.ForceReply(selective=False)
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text="Enter instagram login:" + call.from_user.id, reply_markup=markup)
+                #user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+                #user_markup.row('Site', 'FAQ')
+                bot.send_message(call.from_user.id, new_account_text)
+
+                # markup = types.ForceReply(selective=False)
+                # bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                #                   text="Enter instagram login:" + call.from_user.id, reply_markup=markup)
         elif call.data == "rus":
             text = 'Русский Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
                    ' Send` /help `and a list of the commands available for you will show up.`'
