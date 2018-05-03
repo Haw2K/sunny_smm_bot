@@ -180,7 +180,7 @@ def callback_inline(call):
             user_markup.row('Site', 'FAQ')
             bot.send_message(call.from_user.id, text, reply_markup=user_markup)
 
-            conversation_line.update().where(id == call.from_user.id).values(stage=1)
+            conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'rus'))
 
         elif call.data == 'eng':
             text = 'Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
@@ -189,7 +189,7 @@ def callback_inline(call):
             user_markup.row('Site', 'FAQ')
             bot.send_message(call.from_user.id, text, reply_markup=user_markup)
 
-            conversation_line.update().where(id == call.from_user.id).values(stage=1)
+            conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'eng'))
 
 
 
