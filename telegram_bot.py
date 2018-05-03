@@ -87,10 +87,11 @@ def start(message):
     if conversation.stage == 0:
         text = 'Choose language:'
         keyboard = types.InlineKeyboardMarkup()
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC' + u'\U0001F1E7', callback_data="rus")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1FA' + u'\U0001F1F8', callback_data="rus")
         keyboard.add(callback_button)
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC\U0001F1E7', callback_data="rus")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1FA\U0001F1F8', callback_data="rus")
         keyboard.add(callback_button)
+        #U+1F1FA U+1F1F8
         #callback_button = types.InlineKeyboardButton(text=u'\U0001F1ECU0001F1E7', callback_data="eng")
         #keyboard.add(callback_button)
         bot.send_message(message.from_user.id, text, reply_markup=keyboard)
