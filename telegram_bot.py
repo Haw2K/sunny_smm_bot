@@ -7,6 +7,7 @@ from telebot import types
 from flask import Flask, request, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from srcApp import instagram_api
+from sqlalchemy import update
 
 TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
 bot = telebot.TeleBot(TOKEN)
@@ -86,11 +87,11 @@ def start(message):
 
     if conversation.stage == 0:
         text = 'Choose language:'
-        keyboard = types.InlineKeyboardMarkup(row_width=2)
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1FA' + u'\U0001F1F8' + ' Русский', callback_data="rus")
-        keyboard.add(callback_button)
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1F7\U0001F1FA' + ' English', callback_data="eng")
-        keyboard.add(callback_button)
+        keyboard = types.InlineKeyboardMarkup()
+        callback_button1 = types.InlineKeyboardButton(text=u'\U0001F1FA' + u'\U0001F1F8' + ' Русский', callback_data="rus")
+        #keyboard.add(callback_button)
+        callback_button2 = types.InlineKeyboardButton(text=u'\U0001F1F7\U0001F1FA' + ' English', callback_data="eng")
+        keyboard.row(callback_button1, callback_button2)
         #U+1F1F7 U+1F1FA
         #callback_button = types.InlineKeyboardButton(text=u'\U0001F1ECU0001F1E7', callback_data="eng")
         #keyboard.add(callback_button)
@@ -101,7 +102,7 @@ def start(message):
         user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
         user_markup.row('Site', 'FAQ')
         bot.send_message(message.from_user.id, text, reply_markup=user_markup)
-    elif conversation.language_code == 'emg':
+    elif conversation.language_code == 'eng':
         text = 'Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
                ' Send` /help `and a list of the commands available for you will show up.`'
         user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
@@ -139,27 +140,51 @@ def echo_all(message):
 # В большинстве случаев целесообразно разбить этот хэндлер на несколько маленьких
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    # Если сообщение из чата с ботом
-    if call.message:
-        if call.data == "add_new":
-            #create dont have login stage 0
-            telegram_users_insta_account_stage_0 = telegram_users_insta_accounts.query.filter_by(stage=0).first()
-            telegram_users_insta_account_stage_1 = telegram_users_insta_accounts.query.filter_by(stage=1).first()
-            if telegram_users_insta_account_stage_0 == None and telegram_users_insta_account_stage_1 == None:
-                telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
-                db.session.add(telegram_users_insta_account)
-                db.session.commit()
-                markup = types.ForceReply(selective=False)
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text="Enter instagram login:" + call.from_user.id, reply_markup=markup)
-            #else if telegram_users_insta_account_stage_0 != None:
 
-
-            #bot.send_message(call.message.from_user.id, "Enter instagram login:", reply_markup=markup)
-    # Если сообщение из инлайн-режима
-    elif call.inline_message_id:
-        if call.data == "test":
-            bot.edit_message_text(inline_message_id=call.inline_message_id, text="inline")
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                   text=call.from_user.id)
+    # # Если сообщение из чата с ботом
+    # if call.message:
+    #     if call.data == "add_new":
+    #         #create dont have login stage 0
+    #         telegram_users_insta_account_stage_0 = telegram_users_insta_accounts.query.filter_by(stage=0).first()
+    #         telegram_users_insta_account_stage_1 = telegram_users_insta_accounts.query.filter_by(stage=1).first()
+    #         if telegram_users_insta_account_stage_0 == None and telegram_users_insta_account_stage_1 == None:
+    #             telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
+    #             db.session.add(telegram_users_insta_account)
+    #             db.session.commit()
+    #             markup = types.ForceReply(selective=False)
+    #             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+    #                               text="Enter instagram login:" + call.from_user.id, reply_markup=markup)
+    #     elif call.data == "rus":
+    #         text = 'Русский Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
+    #                ' Send` /help `and a list of the commands available for you will show up.`'
+    #         user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    #         user_markup.row('Site', 'FAQ')
+    #         bot.send_message(call.from_user.id, text, reply_markup=user_markup)
+    #
+    #         # conversation = conversation_line(call.from_user.id)
+    #         # db.session.add(telegram_user)
+    #         # conversation = conversation_line(call.from_user.id)
+    #         # db.session.add(conversation)
+    #         # db.session.commit()
+    #         conversation_line.update().where(users.c.id == 5). \
+    #             values(name='user #5')
+    #
+    #
+    #     elif call.data == 'eng':
+    #         text = 'Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
+    #                ' Send` /help `and a list of the commands available for you will show up.`'
+    #         user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    #         user_markup.row('Site', 'FAQ')
+    #         bot.send_message(call.from_user.id, text, reply_markup=user_markup)
+    #
+    #
+    #         #bot.send_message(call.message.from_user.id, "Enter instagram login:", reply_markup=markup)
+    # # Если сообщение из инлайн-режима
+    # elif call.inline_message_id:
+    #     if call.data == "test":
+    #         bot.edit_message_text(inline_message_id=call.inline_message_id, text="inline")
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
