@@ -167,21 +167,22 @@ def all_messages(message):
     elif conversation.stage == 3:
         bot.send_message(message.from_user.id, 'stage3')
         if message.text != '':
+            bot.send_message(message.from_user.id, 'stage3 bot empty')
             db.session.query(telegram_users_insta_accounts).filter(
                 telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update(
                 {'password': message.text})
             db.session.query(conversation_line).filter(conversation_line.id == message.from_user.id).update(
                 {'stage': 3})
             db.session.commit()
+            bot.send_message(message.from_user.id, 'stage3 after commit')
 
-            #telegram_users_insta_account = conversation_line.query.filter_by(id=message.from_user.id).first()
+            telegram_users_insta_account = telegram_users_insta_accounts.query.filter_by(id=conversation.telegram_users_insta_account).first()
 
-            #instagram_api.get_total_followers_direct_login(conversation.telegram_users_insta_account.login, 'Mitra123',
-            #                                 'd0394ffe96:09de558d36@194.28.194.111:52593')
+            followers, username_id = instagram_api.get_total_followers_direct_login(telegram_users_insta_account.login, telegram_users_insta_account.password, 'd0394ffe96:09de558d36@194.28.194.111:52593')
 
             #check insta acc
 
-            bot.send_message(message.from_user.id, conversation.telegram_users_insta_account.login + ' fdfd ' + conversation.telegram_users_insta_account.password)
+            bot.send_message(message.from_user.id, 'login: ' + conversation.telegram_users_insta_account.login + ' password: ' + conversation.telegram_users_insta_account.password + ' followers: ' + followers + ' username_id: ' + username_id)
         else:
             bot.send_message(message.from_user.id, enter_password_text)
 
