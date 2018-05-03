@@ -53,6 +53,7 @@ class conversation_line(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     stage = db.Column(db.Integer, nullable=False)
     telegram_users_insta_accounts = db.Column(db.Integer, db.ForeignKey('telegram_users_insta_accounts.id'))
+    language_code = db.Column(db.String(3))
     #0 - start
     #1 - add new instagram account
     #2 - add login
@@ -71,12 +72,6 @@ db.create_all()
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    text = 'Greetings! Im Sunny SMM Robot! Send` /add ` to create new task. Want to know about all my options?' \
-           ' Send` /help `and a list of the commands available for you will show up.`'
-    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('Site', 'FAQ')
-    bot.send_message(message.from_user.id, text, reply_markup=user_markup)
-
     telegram_user = telegram_users.query.filter_by(id=message.from_user.id).first()
     if telegram_user == None:
         telegram_user = telegram_users(message.from_user.id)
@@ -85,8 +80,32 @@ def start(message):
         db.session.add(conversation)
         db.session.commit()
 
-@bot.message_handler(commands=['add'])
-def add(message):
+    conversation = conversation_line.query.filter_by(id=message.from_user.id).first()
+
+    if conversation.stage == 0:
+        text = 'Choose language:'
+        keyboard = types.InlineKeyboardMarkup()
+        callback_button = types.InlineKeyboardButton(text="U+1F1F7 U+1F1FA Русский", callback_data="rus")
+        keyboard.add(callback_button)
+        callback_button = types.InlineKeyboardButton(text="U+1F1FA U+1F1F8 English", callback_data="eng")
+        keyboard.add(callback_button)
+        bot.send_message(message.from_user.id, text, reply_markup=keyboard)
+    elif conversation.language_code == 'rus':
+        text = 'Русский Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
+               ' Send` /help `and a list of the commands available for you will show up.`'
+        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+        user_markup.row('Site', 'FAQ')
+        bot.send_message(message.from_user.id, text, reply_markup=user_markup)
+    elif conversation.language_code == 'emg':
+        text = 'Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
+               ' Send` /help `and a list of the commands available for you will show up.`'
+        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+        user_markup.row('Site', 'FAQ')
+        bot.send_message(message.from_user.id, text, reply_markup=user_markup)
+
+
+@bot.message_handler(commands=['instagram'])
+def instagram(message):
     conversation = conversation_line.query.filter_by(id=message.from_user.id).first()
 
     #markup = types.ReplyKeyboardRemove(selective=False)
