@@ -156,18 +156,19 @@ def all_messages(message):
     if conversation.stage == 2:
         bot.send_message(message.from_user.id, 'stage2')
         if message.text != '':
-            db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account.id).update({'login': message.text})
-            db.session.query(conversation_line).filter(conversation_line.id == message.from_user.id).update(
-                {'stage': 3})
+            bot.send_message(message.from_user.id, 'stage2 not empty')
+            db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update({'login': message.text})
+            db.session.query(conversation_line).filter(conversation_line.id == message.from_user.id).update({'stage': 3})
             db.session.commit()
             bot.send_message(message.from_user.id, enter_password_text)
         else:
+            bot.send_message(message.from_user.id, 'stage2 empty')
             bot.send_message(message.from_user.id, new_account_text)
     elif conversation.stage == 3:
         bot.send_message(message.from_user.id, 'stage3')
         if message.text != '':
             db.session.query(telegram_users_insta_accounts).filter(
-                telegram_users_insta_accounts.id == conversation.telegram_users_insta_account.id).update(
+                telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update(
                 {'password': message.text})
             db.session.query(conversation_line).filter(conversation_line.id == message.from_user.id).update(
                 {'stage': 3})

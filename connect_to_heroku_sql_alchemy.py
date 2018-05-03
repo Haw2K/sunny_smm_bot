@@ -66,10 +66,16 @@ db.create_all()
 
 #        telegram_users_insta_account.update({'login': message.text})
 
-telegram_users_insta_account = db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == 1)
-telegram_users_insta_account.update({'login': 'test'})
+#telegram_users_insta_account = db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == 1)
+#telegram_users_insta_account.update({'login': 'test'})
 
+id = 497327013
 
+conversation = conversation_line.query.filter_by(id=id).first()
+
+db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update({'login': 'haw22k'})
+db.session.query(conversation_line).filter(conversation_line.id == id).update({'stage': 3})
+db.session.commit()
 #server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 #conversation_line.update().where(id == 497327013).values(dict(stage=1, language_code='rus'))
 #    db.session.update(conversation_line).where(conversation_line.id == 5).values(dict(stage=1, language_code='rus'))

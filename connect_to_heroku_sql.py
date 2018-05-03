@@ -21,6 +21,9 @@ fdfdf = cur.fetchall()
 #fff = cur.execute('ALTER TABLE telegram_users_insta_accounts ADD column_b VARCHAR(20) NULL, column_c INT NULL')
 
 
+fff2 = cur.execute("SELECT * FROM telegram_users_insta_accounts")
+#fdfd = cur.fetchone()
+fdfdf3 = cur.fetchall()
 # Make the changes to the database persistent
 #>>> conn.commit()
 
