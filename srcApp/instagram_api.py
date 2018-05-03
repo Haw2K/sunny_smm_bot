@@ -36,5 +36,5 @@ def get_total_followers_direct_login(login, password, proxy_name=''):
 
 
 if __name__ == "__main__":
-    get_total_followers_direct_login("nurtdinov.danil", 'Mitra123', 'd0394ffe96:09de558d36@194.28.194.111:52593')
-
+    followers, username_id = get_total_followers_direct_login("nurtdinov.danil", 'Mitra123', 'd0394ffe96:09de558d36@194.28.194.111:52593')
+    print(username_id)

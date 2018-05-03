@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
+from srcApp import instagram_api
 
 server = Flask(__name__)
 server.config.update({
@@ -7,8 +8,6 @@ server.config.update({
     'SQLALCHEMY_TRACK_MODIFICATIONS': False
 })
 db = SQLAlchemy(server)
-#from sqlalchemy import update
-
 class telegram_users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_bot = db.Column(db.Boolean)
@@ -49,10 +48,10 @@ class conversation_line(db.Model):
     telegram_users_insta_account = db.Column(db.Integer, db.ForeignKey('telegram_users_insta_accounts.id'))
     language_code = db.Column(db.String(3))
     #0 - language
-    #1 - add new instagram account
-    #2 - add login
-    # 3 - add password
-    # 4 - change settings instagram account
+    #1 - empty
+    #2 - wait login
+    # 3 - wait password
+    # 4 - wait insta check
 
     def __init__(self, telegram_id):
         self.id = telegram_id
@@ -70,12 +69,12 @@ db.create_all()
 #telegram_users_insta_account.update({'login': 'test'})
 
 id = 497327013
-
-conversation = conversation_line.query.filter_by(id=id).first()
-
-db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update({'login': 'haw22k'})
-db.session.query(conversation_line).filter(conversation_line.id == id).update({'stage': 3})
-db.session.commit()
+#
+# conversation = conversation_line.query.filter_by(id=id).first()
+#
+# db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account).update({'login': 'haw22k'})
+# db.session.query(conversation_line).filter(conversation_line.id == id).update({'stage': 3})
+# db.session.commit()
 #server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 #conversation_line.update().where(id == 497327013).values(dict(stage=1, language_code='rus'))
 #    db.session.update(conversation_line).where(conversation_line.id == 5).values(dict(stage=1, language_code='rus'))
@@ -87,4 +86,10 @@ db.session.commit()
 # session.execute(update(stuff_table, values={stuff_table.c.foo: stuff_table.c.foo + 1}))
 #  session.commit()
 #conversation = conversation_line.query.filter_by(id=497327013).first()
+
+telegram_users_insta_account = telegram_users_insta_accounts.query.filter_by(id=1).first()
+
+followers, username_id = instagram_api.get_total_followers_direct_login(telegram_users_insta_account.login, telegram_users_insta_account.password, 'd0394ffe96:09de558d36@194.28.194.111:52593')
+
+
 fdfd=1
