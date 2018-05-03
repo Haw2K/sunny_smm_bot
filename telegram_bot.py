@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 
 import telebot
@@ -85,9 +87,9 @@ def start(message):
     if conversation.stage == 0:
         text = 'Choose language:'
         keyboard = types.InlineKeyboardMarkup()
-        callback_button = types.InlineKeyboardButton(text="U+1F1F7 U+1F1FA Русский", callback_data="rus")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC', callback_data="rus")
         keyboard.add(callback_button)
-        callback_button = types.InlineKeyboardButton(text="U+1F1FA U+1F1F8 English", callback_data="eng")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1F7', callback_data="eng")
         keyboard.add(callback_button)
         bot.send_message(message.from_user.id, text, reply_markup=keyboard)
     elif conversation.language_code == 'rus':
