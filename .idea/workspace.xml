@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="807db073-8b11-4dfa-8c9d-9a14121c8e0b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/connect_to_heroku_sql_alchemy.py" afterPath="$PROJECT_DIR$/connect_to_heroku_sql_alchemy.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/srcApp/instagram_api.py" afterPath="$PROJECT_DIR$/srcApp/instagram_api.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,7 +48,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connect_to_heroku_sql_alchemy.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="connect_to_heroku_sql_alchemy.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/connect_to_heroku_sql_alchemy.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
@@ -79,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="instagram_api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="instagram_api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/srcApp/instagram_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
+            <state relative-caret-position="315">
+              <caret line="38" column="81" lean-forward="false" selection-start-line="38" selection-start-column="81" selection-end-line="38" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -645,14 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/srcApp/instagram_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/telegram_bot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -667,6 +658,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="5" lean-forward="true" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/srcApp/instagram_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="38" column="81" lean-forward="false" selection-start-line="38" selection-start-column="81" selection-end-line="38" selection-end-column="81" />
           <folding />
         </state>
       </provider>
