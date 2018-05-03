@@ -15,9 +15,10 @@ cur = conn.cursor()
 # ...      (100, "abc'def"))
 #
 # # Query the database and obtain data as Python objects
-fff = cur.execute("SELECT * FROM telegram_users")
+fff = cur.execute("SELECT * FROM telegram_users_insta_accounts")
 fdfd = cur.fetchone()
 fdfdf = cur.fetchall()
+fff = cur.execute('ALTER TABLE telegram_users_insta_accounts ADD column_b VARCHAR(20) NULL, column_c INT NULL')
 
 
 # Make the changes to the database persistent

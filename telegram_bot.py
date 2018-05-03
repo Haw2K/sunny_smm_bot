@@ -41,18 +41,32 @@ class telegram_users_insta_accounts(db.Model):
     login = db.Column(db.String(100))
     password = db.Column(db.String(100))
     need_confirm_ip = db.Column(db.Boolean)
-    stage = db.Column(db.Integer)
 
     def __init__(self, telegram_id):
         self.telegram_id = telegram_id
-        # self.login = ''
-        # self.password = ''
-        self.stage = 0
-
 
     def __repr__(self):
         return '<telegram_users %r>' % self.id
 
+
+class conversation_line(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stage = db.Column(db.Integer, nullable=False)
+    telegram_users_insta_accounts = db.Column(db.Integer, db.ForeignKey('telegram_users_insta_accounts.id'))
+    #0 - start
+    #1 - add new instagram account
+    #2 - add login
+    # 3 - add password
+    # 4 - change settings instagram account
+
+    def __init__(self, telegram_id):
+        self.id = telegram_id
+        self.stage = 0
+
+    def __repr__(self):
+        return '<telegram_users %r>' % self.id
+
+#db.drop_all()
 db.create_all()
 
 @bot.message_handler(commands=['start'])
@@ -63,19 +77,19 @@ def start(message):
     user_markup.row('Site', 'FAQ')
     bot.send_message(message.from_user.id, text, reply_markup=user_markup)
 
-@bot.message_handler(commands=['add'])
-def add(message):
-    markup = types.ReplyKeyboardRemove(selective=False)
-
-    telegram_user = telegram_users.query.filter_by(id = message.from_user.id).first()
+    telegram_user = telegram_users.query.filter_by(id=message.from_user.id).first()
     if telegram_user == None:
         telegram_user = telegram_users(message.from_user.id)
         db.session.add(telegram_user)
+        conversation = conversation_line(message.from_user.id)
+        db.session.add(conversation)
         db.session.commit()
-        #bot.send_message(message.from_user.id, telegram_users.query.all()[1].id, reply_markup=markup)
-    # else:
-    #     ff=1
-        #bot.send_message(message.from_user.id, 'you allready have account: %s' % (telegram_user.id), reply_markup=markup)
+
+@bot.message_handler(commands=['add'])
+def add(message):
+    conversation = conversation_line.query.filter_by(id=message.from_user.id).first()
+
+    #markup = types.ReplyKeyboardRemove(selective=False)
 
     #add inline buttons create new accounts
     keyboard = types.InlineKeyboardMarkup()
@@ -105,8 +119,8 @@ def callback_inline(call):
     if call.message:
         if call.data == "add_new":
             #create dont have login stage 0
-            telegram_users_insta_account_stage_0 = telegram_users.query.filter_by(stage=0).first()
-            telegram_users_insta_account_stage_1 = telegram_users.query.filter_by(stage=1).first()
+            telegram_users_insta_account_stage_0 = telegram_users_insta_accounts.query.filter_by(stage=0).first()
+            telegram_users_insta_account_stage_1 = telegram_users_insta_accounts.query.filter_by(stage=1).first()
             if telegram_users_insta_account_stage_0 == None and telegram_users_insta_account_stage_1 == None:
                 telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
                 db.session.add(telegram_users_insta_account)
