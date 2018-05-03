@@ -116,28 +116,38 @@ def instagram(message):
     conversation = conversation_line.query.filter_by(id=message.from_user.id).first()
 
     if conversation.language_code == 'rus':
-        add_account_text = 'Добавить аккаунт'
-        edit_account_text = 'Редактировать аккаунт: '
-        instagram_setting_text = 'Добавьте или настройте инстаграм аккаунт:'
-    else:
-        add_account_text = 'New account'
-        edit_account_text = 'Edit account: '
-        instagram_setting_text = 'Edit or create new, instagram account:'
+        #markup = types.ReplyKeyboardRemove(selective=False)
+        #add inline buttons create new accounts
+        keyboard = types.InlineKeyboardMarkup()
+        callback_button = types.InlineKeyboardButton(text="Добавить аккаунт", callback_data="add_new")
+        keyboard.add(callback_button)
 
-    # add inline buttons create new accounts
+        #seach allready exist instagram accounts
+        insta_accounts = telegram_users_insta_accounts.query.filter_by(telegram_id = message.from_user.id).all()
+        if insta_accounts == None:
+            for insta_account in insta_accounts:
+                callback_button = types.InlineKeyboardButton(text='Редактировать аккаунт: %s' % (insta_account.login), callback_data=insta_account.id)
+                keyboard.add(callback_button)
+
+        bot.send_message(message.from_user.id, 'Добавьте или настройте инстаграм аккаунт:', reply_markup=keyboard)
+    else:
+        # add inline buttons create new accounts
     keyboard = types.InlineKeyboardMarkup()
-    callback_button = types.InlineKeyboardButton(add_account_text, callback_data="add_new")
+    callback_button = types.InlineKeyboardButton(text="Add new instagram account", callback_data="add_new")
     keyboard.add(callback_button)
 
     # seach allready exist instagram accounts
     insta_accounts = telegram_users_insta_accounts.query.filter_by(telegram_id=message.from_user.id).all()
     if insta_accounts == None:
         for insta_account in insta_accounts:
-            callback_button = types.InlineKeyboardButton(text=edit_account_text + insta_account.login,
+            callback_button = types.InlineKeyboardButton(text='Edit account: %s' % (insta_account.login),
                                                          callback_data=insta_account.id)
             keyboard.add(callback_button)
 
-    bot.send_message(message.from_user.id, instagram_setting_text, reply_markup=keyboard)
+    bot.send_message(message.from_user.id, 'Edit or create new, instagram account:', reply_markup=keyboard)
+
+        #'when we need confim we send you email'
+        #instagram_api.get_total_followers_direct_login("nurtdinov.danil", 'Mitra123', 'd0394ffe96:09de558d36@194.28.194.111:52593')
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
@@ -155,18 +165,9 @@ def callback_inline(call):
             #create dont have login stage 0
             conversation = conversation_line.query.filter_by(id=call.from_user.id).first()
 
-            if conversation.language_code == 'rus':
-                add_account_text = 'Добавить аккаунт'
-                edit_account_text = 'Редактировать аккаунт: '
-                instagram_setting_text = 'Добавьте или настройте инстаграм аккаунт:'
-
-            else:
-                add_account_text = 'New account'
-                edit_account_text = 'Edit account: '
-                instagram_setting_text = 'Edit or create new, instagram account:'
-
-
-            if conversation.stage == 1:
+            telegram_users_insta_account_stage_0 = telegram_users_insta_accounts.query.filter_by(stage=0).first()
+            telegram_users_insta_account_stage_1 = telegram_users_insta_accounts.query.filter_by(stage=1).first()
+            if telegram_users_insta_account_stage_0 == None and telegram_users_insta_account_stage_1 == None:
                 telegram_users_insta_account = telegram_users_insta_accounts(call.from_user.id)
                 db.session.add(telegram_users_insta_account)
                 db.session.commit()

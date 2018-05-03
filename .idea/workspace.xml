@@ -20,11 +20,21 @@
       <file leaf-file-name="telegram_bot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/telegram_bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="144" column="57" lean-forward="false" selection-start-line="144" selection-start-column="57" selection-end-line="144" selection-end-column="57" />
+            <state relative-caret-position="404">
+              <caret line="173" column="67" lean-forward="false" selection-start-line="173" selection-start-column="67" selection-end-line="173" selection-end-column="67" />
               <folding>
                 <element signature="e#46#55#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="telegram_bot20180503.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/telegram_bot20180503.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -623,10 +633,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/telegram_bot20180503.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/telegram_bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="144" column="57" lean-forward="false" selection-start-line="144" selection-start-column="57" selection-end-line="144" selection-end-column="57" />
+        <state relative-caret-position="404">
+          <caret line="173" column="67" lean-forward="false" selection-start-line="173" selection-start-column="67" selection-end-line="173" selection-end-column="67" />
           <folding>
             <element signature="e#46#55#0" expanded="true" />
           </folding>
