@@ -87,12 +87,12 @@ def start(message):
     if conversation.stage == 0:
         text = 'Choose language:'
         keyboard = types.InlineKeyboardMarkup()
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC' + ' '+u'\U0001F1E7', callback_data="rus")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC' + u'\U0001F1E7', callback_data="rus")
         keyboard.add(callback_button)
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC U0001F1E7', callback_data="eng")
+        callback_button = types.InlineKeyboardButton(text=u'\U0001F1EC\U0001F1E7', callback_data="rus")
         keyboard.add(callback_button)
-        callback_button = types.InlineKeyboardButton(text=u'\U0001F1ECU0001F1E7', callback_data="eng")
-        keyboard.add(callback_button)
+        #callback_button = types.InlineKeyboardButton(text=u'\U0001F1ECU0001F1E7', callback_data="eng")
+        #keyboard.add(callback_button)
         bot.send_message(message.from_user.id, text, reply_markup=keyboard)
     elif conversation.language_code == 'rus':
         text = 'Русский Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
