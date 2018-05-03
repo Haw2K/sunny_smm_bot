@@ -141,6 +141,9 @@ def instagram(message):
 @bot.message_handler(func=lambda message: True)
 def all_messages(message):
 	#bot.reply_to(message, message.text)
+
+    bot.send_message(message.from_user.id, 'messages')
+
     conversation = conversation_line.query.filter_by(id=message.from_user.id).first()
 
     if conversation.language_code == 'rus':
@@ -151,6 +154,7 @@ def all_messages(message):
         new_account_text = "Enter instagram login:"
 
     if conversation.stage == 2:
+        bot.send_message(message.from_user.id, 'stage2')
         if message.text != '':
             db.session.query(telegram_users_insta_accounts).filter(telegram_users_insta_accounts.id == conversation.telegram_users_insta_account.id).update({'login': message.text})
             db.session.query(conversation_line).filter(conversation_line.id == message.from_user.id).update(
@@ -160,6 +164,7 @@ def all_messages(message):
         else:
             bot.send_message(message.from_user.id, new_account_text)
     elif conversation.stage == 3:
+        bot.send_message(message.from_user.id, 'stage3')
         if message.text != '':
             db.session.query(telegram_users_insta_accounts).filter(
                 telegram_users_insta_accounts.id == conversation.telegram_users_insta_account.id).update(
