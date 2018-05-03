@@ -177,8 +177,11 @@ def all_messages(message):
             bot.send_message(message.from_user.id, 'stage3 after commit')
 
             telegram_users_insta_account = telegram_users_insta_accounts.query.filter_by(id=conversation.telegram_users_insta_account).first()
+            bot.send_message(message.from_user.id, 'stage3 after quere')
 
             followers, username_id = instagram_api.get_total_followers_direct_login(telegram_users_insta_account.login, telegram_users_insta_account.password, 'd0394ffe96:09de558d36@194.28.194.111:52593')
+
+            bot.send_message(message.from_user.id, username_id)
 
             #check insta acc
 

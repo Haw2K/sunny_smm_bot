@@ -1,1 +1,1 @@
-web: python srcApp/instagram_api.py
+web: python telegram_bot.py
