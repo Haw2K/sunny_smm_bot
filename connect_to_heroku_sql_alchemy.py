@@ -7,6 +7,7 @@ server.config.update({
     'SQLALCHEMY_TRACK_MODIFICATIONS': False
 })
 db = SQLAlchemy(server)
+#from sqlalchemy import update
 
 class telegram_users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +48,7 @@ class conversation_line(db.Model):
     stage = db.Column(db.Integer, nullable=False)
     telegram_users_insta_accounts = db.Column(db.Integer, db.ForeignKey('telegram_users_insta_accounts.id'))
     language_code = db.Column(db.String(3))
-    #0 - start
+    #0 - language
     #1 - add new instagram account
     #2 - add login
     # 3 - add password
@@ -65,7 +66,15 @@ db.create_all()
 
 if __name__ == "__main__":
     #server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
-    telegram_user = telegram_users.query.all()
-    conversation = conversation_line.query.filter_by(id=telegram_user[0].id).first()
+    #conversation_line.update().where(id == 497327013).values(dict(stage=1, language_code='rus'))
+#    db.session.update(conversation_line).where(conversation_line.id == 5).values(dict(stage=1, language_code='rus'))
+   # db.session.commit()
+   # db.session.execute(update(conversation_line.where(conversation_line.id == 497327013).values(dict(stage=1, language_code='rus'))))
+    #db.session.commit()
+    db.session.query(conversation_line).filter(conversation_line.id == 497327013).update({'stage': 1, 'language_code': 'rus'})
+    db.session.commit()
+   # session.execute(update(stuff_table, values={stuff_table.c.foo: stuff_table.c.foo + 1}))
+  #  session.commit()
+    conversation = conversation_line.query.filter_by(id=497327013).first()
         #filter_by(stage=0).first()
     fdfd=1

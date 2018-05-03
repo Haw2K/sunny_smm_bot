@@ -7,7 +7,6 @@ from telebot import types
 from flask import Flask, request, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from srcApp import instagram_api
-from sqlalchemy import update
 
 TOKEN = '535439906:AAH3ZL2Yr64_lNnYEZlEepsPZXQoJyfr1S8'
 bot = telebot.TeleBot(TOKEN)
@@ -180,7 +179,10 @@ def callback_inline(call):
             user_markup.row('Site', 'FAQ')
             bot.send_message(call.from_user.id, text, reply_markup=user_markup)
 
-            conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'rus'))
+            #conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'rus'))
+            db.session.query(conversation_line).filter(conversation_line.id == 497327013).update(
+                {'stage': 1, 'language_code': 'rus'})
+            db.session.commit()
 
         elif call.data == 'eng':
             text = 'Greetings! Im Sunny SMM Robot! Send` /instagram ` to set up instagram settings. Want to know about all my options?' \
@@ -189,7 +191,10 @@ def callback_inline(call):
             user_markup.row('Site', 'FAQ')
             bot.send_message(call.from_user.id, text, reply_markup=user_markup)
 
-            conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'eng'))
+            db.session.query(conversation_line).filter(conversation_line.id == 497327013).update(
+                {'stage': 1, 'language_code': 'eng'})
+            db.session.commit()
+            #conversation_line.update().where(id == call.from_user.id).values(dict(stage=1, language_code = 'eng'))
 
 
 
